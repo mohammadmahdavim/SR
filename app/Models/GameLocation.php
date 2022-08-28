@@ -4,8 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GameLocation extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    public function field_type()
+    {
+        return $this->belongsTo(FieldType::class)->withDefault();
+    }
 }
