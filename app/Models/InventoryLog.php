@@ -11,6 +11,7 @@ class InventoryLog extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded=[];
     public function product_type()
     {
         return $this->belongsTo(ProductType::class)->withDefault();

@@ -22,8 +22,8 @@ return new class extends Migration
             $table->text('contact_numbers')->nullable();
             $table->text('addresses')->nullable();
             $table->text('contact_emails')->nullable();
-            $table->unsignedBigInteger('regionId');
-            $table->foreign('regionId')->references('id')->on('regions')->onDelete('cascade');
+            $table->unsignedBigInteger('region_id');
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
             $table->unsignedBigInteger('level_id');
             $table->foreign('level_id')->references('id')->on('levels');
             $table->unsignedBigInteger('organization_type_id');

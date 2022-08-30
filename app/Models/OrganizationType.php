@@ -11,4 +11,5 @@ class OrganizationType extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded=[];
 }

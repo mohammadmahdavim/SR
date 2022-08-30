@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('facebook')->nullable();
             $table->string('twitter')->nullable();
             $table->string('image_url')->nullable();
-            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_created_by');
             $table->unsignedBigInteger('last_edit_by')->nullable();

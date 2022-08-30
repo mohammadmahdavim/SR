@@ -11,6 +11,7 @@ class Organization extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded=[];
     public function type()
     {
         return $this->belongsTo(OrganizationType::class)->withDefault();

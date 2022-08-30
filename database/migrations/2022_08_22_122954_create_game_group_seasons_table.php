@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreign('game_group_id')->references('id')->on('game_groups')->onDelete('cascade');
             $table->integer('from_year')->nullable();
             $table->integer('to_year')->nullable();
-            $table->integer('from_time')->nullable();
-            $table->integer('to_time')->nullable();
+            $table->date('from_date')->nullable();
+            $table->date('to_date')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_created_by');

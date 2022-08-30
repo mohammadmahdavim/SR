@@ -9,6 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class FieldType extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
 }
