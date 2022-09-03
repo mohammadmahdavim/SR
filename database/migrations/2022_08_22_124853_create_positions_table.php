@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('abbr')->nullable();
+            $table->string('parent_name')->nullable();
             $table->unsignedBigInteger('sport_id');
             $table->foreign('sport_id')->references('id')->on('sports')->onDelete('cascade');
             $table->softDeletes();

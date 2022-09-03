@@ -16,7 +16,14 @@ return new class extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('persian_name')->nullable();
+            $table->unsignedBigInteger('contract_id')->nullable();
+            $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
+            $table->unsignedBigInteger('created_by');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->string('ip_created_by');
+            $table->unsignedBigInteger('last_edit_by')->nullable();
+            $table->foreign('last_edit_by')->references('id')->on('users')->onDelete('cascade');
+            $table->string('ip_last_edit_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,8 +36,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('active')->default(1);
             $table->boolean('have_full_permission')->default(1);
-            $table->date('start');
-            $table->date('end');
+            $table->date('start')->nullable();
+            $table->date('end')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_created_by');

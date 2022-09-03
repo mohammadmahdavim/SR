@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('highlights', function (Blueprint $table) {
+        Schema::create('permission_role_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('event_section_id');
-            $table->foreign('event_section_id')->references('id')->on('event_sections')->onDelete('cascade');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->string('permission_roleable_type');
+            $table->unsignedBigInteger('permission_roleable_id');
+            $table->boolean('active')->default(1);
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_created_by');
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('highlights');
+        Schema::dropIfExists('permission_role_details');
     }
 };
