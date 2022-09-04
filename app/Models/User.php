@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -49,5 +49,9 @@ class User extends Authenticatable
     public function getRoles()
     {
         return $this->belongsToMany(Role::class,'role_user','user_id','id');
+    }
+
+    public function findForPassport($username) {
+        return $this->where('username', $username)->first();
     }
 }
