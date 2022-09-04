@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('event_sections', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->unsignedBigInteger('base_section_id');
             $table->foreign('base_section_id')->references('id')->on('base_sections')->onDelete('cascade');
             $table->dateTime('video_start_date_time')->nullable();

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\BaseSection;
+use App\Models\Event;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class EventSectionFactory extends Factory
     public function definition()
     {
         return [
+            'event_id' => Event::inRandomOrder()->first('id'),
             'base_section_id' => BaseSection::inRandomOrder()->first('id'),
             'video_start_date_time' => fake()->dateTime(),
             'video_end_date_time' => fake()->dateTime(),

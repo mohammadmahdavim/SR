@@ -23,7 +23,7 @@ class HighlightDetail extends Model
 
     public function player()
     {
-        return $this->belongsTo(EventPlayer::class)->withDefault();
+        return $this->belongsTo(EventPlayer::class,'event_player_id','id')->withDefault();
     }
 
     public function tag()

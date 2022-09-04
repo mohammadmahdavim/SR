@@ -15,4 +15,11 @@ class Highlight extends Model
     {
         return $this->belongsTo(EventSection::class)->withDefault();
     }
+
+    public function detail()
+    {
+        return $this->hasMany(HighlightDetail::class);
+    }
+
+
 }

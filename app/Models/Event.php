@@ -10,6 +10,7 @@ class Event extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $guarded=[];
 
     public function type()
     {
@@ -44,5 +45,10 @@ class Event extends Model
     public function level()
     {
         return $this->belongsTo(Level::class)->withDefault();
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(EventSection::class);
     }
 }

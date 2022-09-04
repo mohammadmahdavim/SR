@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Region::class)->withDefault();
     }
+
+    public function getRoles()
+    {
+        return $this->belongsToMany(Role::class,'role_user','user_id','id');
+    }
 }

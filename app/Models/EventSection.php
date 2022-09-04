@@ -11,8 +11,14 @@ class EventSection extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded=[];
     public function section()
     {
         return $this->belongsTo(BaseSection::class)->withDefault();
+    }
+
+    public function highlights()
+    {
+        return $this->hasMany(Highlight::class);
     }
 }
