@@ -60,8 +60,8 @@ class DatabaseSeeder extends Seeder
        \App\Models\Highlight::factory(500)->create();
        \App\Models\HighlightDetail::factory(1000)->create();
        \App\Models\HighlightDetailSubTag::factory(2000)->create();
-        $this->call([
-            RolePermissionSeeder::class,
-        ]);
+//        $this->call([
+//            RolePermissionSeeder::class,
+//        ]);
     }
 }

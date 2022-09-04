@@ -23,7 +23,7 @@ class OauthController extends Controller
      *            @OA\Schema(
      *               type="object",
      *               required={"username", "password" },
-     *               @OA\Property(property="username", type="username"),
+     *               @OA\Property(property="user_name", type="user_name"),
      *               @OA\Property(property="password", type="password")
      *            ),
      *        ),
@@ -53,7 +53,7 @@ class OauthController extends Controller
 //        $data = $request->all();
 
         $validator = $request->validate([
-            'username' => 'required',
+            'user_name' => 'required',
             'password' => 'required'
         ]);
 //        if($data->type){

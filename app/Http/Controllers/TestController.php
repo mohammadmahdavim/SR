@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+
+    public function test()
+    {
+//        ds
+        dd('');
+    }
+
+
     public function index()
     {
 

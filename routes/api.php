@@ -21,6 +21,7 @@ use L5Swagger\Http\Controllers\SwaggerController;
 Route::group(['middleware' => 'web'], function () {
     Route::get('sr/api/docs', [SwaggerController::class,'api']);
 });
+Route::get('test', [\App\Http\Controllers\TestController::class,'test']);
 Route::post('login', [App\Http\Controllers\Auth\OauthController::class,'login']);
 //Route::post('register', 'Api\AuthController@register');
 
