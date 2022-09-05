@@ -24,7 +24,8 @@ return new class extends Migration
             $table->integer('order_count')->nullable();
             $table->string('order_unit')->default('hour');
             $table->text('description')->nullable();
-            $table->string('year')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_created_by');

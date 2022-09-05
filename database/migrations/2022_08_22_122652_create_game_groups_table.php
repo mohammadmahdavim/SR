@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('is_national_team')->default(0);
             $table->boolean('is_international')->default(0);
-            $table->boolean('is_football_game_stage')->default(0);
             $table->unsignedBigInteger('created_by');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_created_by');

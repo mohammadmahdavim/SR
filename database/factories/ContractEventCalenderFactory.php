@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\BaseService;
+use App\Models\ContractProductDetail;
+use App\Models\ContractServiceDetail;
 use App\Models\ProductType;
 use App\Models\TeamProfile;
 use App\Models\User;
@@ -22,8 +24,8 @@ class ContractEventCalenderFactory extends Factory
     {
         return [
             'team_profile_id' => TeamProfile::inRandomOrder()->first('id'),
-            'product_type_id' => ProductType::inRandomOrder()->first('id'),
-            'base_service_id' => BaseService::inRandomOrder()->first('id'),
+            'contract_product_detail_id' => ContractProductDetail::inRandomOrder()->first('id'),
+            'contract_service_detail_id' => ContractServiceDetail::inRandomOrder()->first('id'),
             'date' => fake()->date(),
             'from_time' => fake()->dateTime,
             'to_time' => fake()->dateTime,

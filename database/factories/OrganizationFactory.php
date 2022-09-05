@@ -26,7 +26,6 @@ class OrganizationFactory extends Factory
             'second_name' => fake()->name(),
             'alias_name' => fake()->name(),
             'image_url' => fake()->name(),
-            'contact_numbers' => fake()->text(),
             'addresses' => fake()->address(),
             'contact_emails' => fake()->companyEmail(),
             'region_id' => Region::inRandomOrder()->first('id'),

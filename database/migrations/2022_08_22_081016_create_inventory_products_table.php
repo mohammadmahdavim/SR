@@ -19,9 +19,13 @@ return new class extends Migration
             $table->foreign('product_type_id')->references('id')->on('product_types')->onDelete('cascade');
             $table->string('serialNumber')->nullable();
             $table->string('code')->nullable();
+            $table->unsignedBigInteger('buy_price_type')->nullable();
+            $table->foreign('buy_price_type')->on('buy_price_types')->references('id')->onDelete('cascade');
             $table->string('buy_price')->nullable();
+            $table->string('buy_price_rial')->nullable();
             $table->string('model')->nullable();
-            $table->enum('status',['rentable','buyable','both','subscription_not_activated']);
+            $table->string('activation_status');
+            $table->string('rent_status');
             $table->integer('hour_used')->nullable();
             $table->integer('year')->nullable();
             $table->unsignedBigInteger('created_by');

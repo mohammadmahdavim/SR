@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('team_profile_id');
             $table->foreign('team_profile_id')->references('id')->on('team_profiles')->onDelete('cascade');
-            $table->unsignedBigInteger('product_type_id');
-            $table->foreign('product_type_id')->references('id')->on('product_types')->onDelete('cascade');
-            $table->unsignedBigInteger('base_service_id');
-            $table->foreign('base_service_id')->references('id')->on('base_services')->onDelete('cascade');
+            $table->unsignedBigInteger('contract_product_detail_id');
+            $table->foreign('contract_product_detail_id')->references('id')->on('contract_product_details')->onDelete('cascade');
+            $table->unsignedBigInteger('contract_service_detail_id');
+            $table->foreign('contract_service_detail_id')->references('id')->on('contract_service_details')->onDelete('cascade');
             $table->date('date')->nullable();
             $table->time('from_time')->nullable();
             $table->time('to_time')->nullable();

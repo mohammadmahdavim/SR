@@ -13,22 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contract_product_details', function (Blueprint $table) {
+        Schema::create('organization_numbers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('inventory_log_id')->nullable()->comment('وقتی خالیه یعنی پیش خرید شده و هنوز نیومده برامون');
-            $table->foreign('inventory_log_id')->references('id')->on('inventory_logs')->onDelete('cascade');
-            $table->unsignedBigInteger('contract_id');
-            $table->foreign('contract_id')->references('id')->on('contracts')->onDelete('cascade');
-            $table->text('description')->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('organization_id');
+            $table->foreign('organization_id')->on('organizations')->references('id')->onDelete('cascade');
+            $table->string('prefix');
+            $table->integer('number');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_created_by');
             $table->unsignedBigInteger('last_edit_by')->nullable();
             $table->foreign('last_edit_by')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_last_edit_by')->nullable();
             $table->softDeletes();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -40,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contract_product_details');
+        Schema::dropIfExists('organization_numbers');
     }
 };

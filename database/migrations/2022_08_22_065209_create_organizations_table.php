@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('second_name')->nullable();
             $table->string('alias_name')->nullable();
             $table->string('image_url')->nullable();
-            $table->text('contact_numbers')->nullable();
             $table->text('addresses')->nullable();
             $table->text('contact_emails')->nullable();
             $table->unsignedBigInteger('region_id');

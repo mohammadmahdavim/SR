@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('field_types', function (Blueprint $table) {
+        Schema::create('buy_price_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->enum('type',['indoor','outdoor'])->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('field_types');
+        Schema::dropIfExists('buy_price_types');
     }
 };
