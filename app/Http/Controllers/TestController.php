@@ -4,14 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TestController extends Controller
 {
 
     public function test()
     {
-//        ds
-        dd('');
+
+     $users= User::all();
+
+        return new JsonResodsurce(
+            [
+                'status' =>200,
+                'data' => $users,
+                'message' => 'successful',
+                'url'=>\request()->getUri()
+
+            ]
+        );
     }
 
 
