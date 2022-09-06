@@ -51,6 +51,11 @@ return [
     */
 
     'channels' => [
+        'costume_error' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/costume_error.log'),
+            'level' => 'info',
+        ],
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],
