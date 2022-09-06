@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Crypt;
 use Laravel\Passport\Passport;
 
@@ -55,19 +56,32 @@ class OauthController extends Controller
         $this->validateLogin($request);
 
         if (!$this->attemptLogin($request)) {
-            return response()->json(['error' => 'Unauthorised'], 401);
+            return new JsonResource(
+                [
+                    'status' => 401,
+                    'data' => [],
+                    'message' => 'Unauthorised',
+                    'url' => \request()->getUri()
+                ]
+            );
         } else {
-            $success['token'] = auth()->user()->createToken('authToken')->accessToken;
-            $success['user'] = auth()->user();
-
-            return response()->json(['success' => $success])->setStatusCode(200);
+            $data['token'] = auth()->user()->createToken('authToken')->accessToken;
+            $data['user'] = auth()->user();
+            return new JsonResource(
+                [
+                    'status' => 200,
+                    'data' => $data,
+                    'message' => 'success',
+                    'url' => \request()->getUri()
+                ]
+            );
         }
     }
 
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return void
      */
     protected function validateLogin(Request $request)
@@ -77,7 +91,7 @@ class OauthController extends Controller
         ]);
 
 
-        switch ($request->all()){
+        switch ($request->all()) {
             case $request['type'] = 1:
                 $validator = $request->validate([
                     'user_name' => 'required|']); // Validation for username
@@ -94,7 +108,7 @@ class OauthController extends Controller
     /**
      * Attempt to log the user into the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return bool
      */
     protected function attemptLogin(Request $request)
@@ -103,15 +117,15 @@ class OauthController extends Controller
         if (auth()->attempt([
                 'user_name' => $request['user_name'],
                 'password' => $request['password']
-            ],$request->has('remember'))
+            ], $request->has('remember'))
             || auth()->attempt([
                 'email' => $request['user_name'],
                 'password' => $request['password']
-            ],$request->has('remember'))
+            ], $request->has('remember'))
             || auth()->attempt([
                 'phone_number' => $request['user_name'],
                 'password' => $request['password']
-            ],$request->has('remember'))){
+            ], $request->has('remember'))) {
             return true;
         }
         return false;
@@ -145,8 +159,9 @@ class OauthController extends Controller
      * )
      */
 
-    public function user(Request $request){
-        $user =  $request->user();
+    public function user(Request $request)
+    {
+        $user = $request->user();
         return $user;
     }
 }
