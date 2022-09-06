@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Models\Log;
 use ArgumentCountError;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -58,35 +59,68 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+//        dd($request->method());
         if ($request->expectsJson()) {
             if ($e instanceof NotFoundHttpException) {
-                return $this->HasStatusAndMessage($e);
+                $response = $this->HasStatusAndMessage($e);
             } elseif ($e instanceof AuthorizationException) {
-                return $this->AuthenticationExceptionMessage($e);
+                $response = $this->AuthenticationExceptionMessage($e);
             } elseif ($e instanceof MethodNotAllowedHttpException) {
-                return $this->AuthenticationExceptionMessage($e);
+                $response = $this->AuthenticationExceptionMessage($e);
             } elseif ($e instanceof AuthenticationException) {
-                return $this->AuthenticationExceptionMessage($e);
+                $response = $this->AuthenticationExceptionMessage($e);
             } elseif ($e instanceof ParseError) {
-                return $this->ParseErrorMessage($e);
+                $response = $this->ParseErrorMessage($e);
             } elseif ($e instanceof ArgumentCountError) {
-                return $this->ArgumentCountErrorMessage($e);
+                $response = $this->ArgumentCountErrorMessage($e);
             } elseif ($e instanceof CheckClientCredentials) {
-                return $this->HasStatusAndMessage($e);
+                $response = $this->HasStatusAndMessage($e);
             } elseif (str_starts_with($e->getMessage(), 'Class') and str_ends_with($e->getMessage(), 'not found')) {
-                return $this->CustomExceptionMessage(462);
-            }elseif (str_starts_with($e->getMessage(), 'Target class') and str_ends_with($e->getMessage(), 'does not exist.')) {
-                return $this->CustomExceptionMessage(463);
-            }elseif (str_starts_with($e->getMessage(), 'Method') and str_ends_with($e->getMessage(), 'does not exist.')) {
-                return $this->CustomExceptionMessage(464);
-            }elseif (str_contains($e->getMessage(), 'No connection') ) {
-                return $this->CustomExceptionMessage(465);
-            }else {
-                return $this->OtherExceptionMessage($e);
+                $response = $this->CustomExceptionMessage(462);
+            } elseif (str_starts_with($e->getMessage(), 'Target class') and str_ends_with($e->getMessage(), 'does not exist.')) {
+                $response = $this->CustomExceptionMessage(463);
+            } elseif (str_starts_with($e->getMessage(), 'Method') and str_ends_with($e->getMessage(), 'does not exist.')) {
+                $response = $this->CustomExceptionMessage(464);
+            } elseif (str_contains($e->getMessage(), 'No connection')) {
+                $response = $this->CustomExceptionMessage(465);
+                $this->create_file_log($response, $e, $request);
+            } else {
+                $response = $this->OtherExceptionMessage($e);
             }
+            if (!str_contains($e->getMessage(), 'No connection')) {
+                $this->create_db_log($response, $e, $request);
+            }
+
+            return $response;
         } else {
             return parent::render($request, $e);
         }
+    }
+
+    public function create_db_log($response, $e, $request)
+    {
+        Log::create([
+            'status' => $response['status'],
+            'front_message' => $response['message'],
+            'back_message' => $e->getMessage(),
+            'url' => $response['url'],
+            'ip' => $request->ip(),
+            'user_id' => auth()->user() ? auth()->user()->id : null,
+            'method' => $request->method(),
+        ]);
+    }
+
+    public function create_file_log($response, $e, $request)
+    {
+        $data = ['status' => $response['status'],
+            'front_message' => $response['message'],
+            'back_message' => $e->getMessage(),
+            'url' => $response['url'],
+            'ip' => $request->ip(),
+            'user_id' => auth()->user() ? auth()->user()->id : null,
+            'method' => $request->method()];
+        \Log::channel('costume_error')->emergency($data);
+
     }
 
     /**
@@ -94,6 +128,7 @@ class Handler extends ExceptionHandler
      */
     public function HasStatusAndMessage($e): JsonResource
     {
+
         return new JsonResource(
             [
                 'status' => $e->getStatusCode(),
@@ -102,6 +137,7 @@ class Handler extends ExceptionHandler
                 'url' => \request()->getUri()
             ]
         );
+
     }
 
     /**
@@ -118,6 +154,7 @@ class Handler extends ExceptionHandler
                 'url' => \request()->getUri()
             ]
         );
+
     }
 
     /**
@@ -134,6 +171,7 @@ class Handler extends ExceptionHandler
                 'url' => \request()->getUri()
             ]
         );
+
     }
 
     /**
@@ -150,6 +188,7 @@ class Handler extends ExceptionHandler
                 'url' => \request()->getUri()
             ]
         );
+
     }
 
     /**
@@ -165,6 +204,7 @@ class Handler extends ExceptionHandler
                 'url' => \request()->getUri()
             ]
         );
+
     }
 
     /**
@@ -181,5 +221,8 @@ class Handler extends ExceptionHandler
                 'url' => \request()->getUri()
             ]
         );
+
     }
+
+
 }
