@@ -12,6 +12,10 @@ class Organization extends Model
     use SoftDeletes;
 
     protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function type()
     {
         return $this->belongsTo(OrganizationType::class)->withDefault();

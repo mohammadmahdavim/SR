@@ -10,7 +10,10 @@ class EventPlayer extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function event()
     {
 

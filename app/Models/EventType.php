@@ -10,5 +10,9 @@ class EventType extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
 }

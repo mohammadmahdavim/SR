@@ -10,7 +10,10 @@ class ContractEventCalender extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function team_profile()
     {
         return $this->belongsTo(TeamProfile::class)->withDefault();

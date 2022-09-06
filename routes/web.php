@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return decrypt(\App\Models\Level::all()[3]->id);
+
     \Log::channel('costume')->emergency('This is testing for ItSolutionStuff.com!');
 
     return view('welcome');

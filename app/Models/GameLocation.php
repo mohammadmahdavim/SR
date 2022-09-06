@@ -10,7 +10,11 @@ class GameLocation extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function field_type()
     {
         return $this->belongsTo(FieldType::class)->withDefault();

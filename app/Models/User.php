@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,13 +13,17 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     use SoftDeletes;
 
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $guarded=[];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -48,10 +51,21 @@ class User extends Authenticatable
 
     public function getRoles()
     {
-        return $this->belongsToMany(Role::class,'role_user','user_id','id');
+        return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'id');
     }
 
-    public function findForPassport($username) {
+    public function findForPassport($username)
+    {
         return $this->where('user_name', $username)->first();
+    }
+
+    public function id()
+    {
+        return encrypt($this->id);
+    }
+
+    public function setIdUserAttribute($value)
+    {
+        $this->attributes['id_product'] = decrypt($value);
     }
 }

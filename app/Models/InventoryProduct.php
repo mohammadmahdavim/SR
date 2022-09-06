@@ -10,7 +10,12 @@ class InventoryProduct extends Model
 {
     use HasFactory;
     use SoftDeletes;
+ protected $guarded=[];
 
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function product_type()
     {
         return $this->belongsTo(ProductType::class)->withDefault();

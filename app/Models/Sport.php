@@ -11,6 +11,13 @@ class Sport extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded = [];
+
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
+
     public function age_group()
     {
         return $this->belongsTo(AgeGroup::class)->withDefault();

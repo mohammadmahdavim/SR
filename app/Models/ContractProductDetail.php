@@ -11,6 +11,10 @@ class ContractProductDetail extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function inventory_log()
     {
         return $this->belongsTo(InventoryLog::class)->withDefault();

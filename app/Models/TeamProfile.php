@@ -10,6 +10,13 @@ class TeamProfile extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $guarded=[];
+
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function sport()
     {
         return $this->belongsTo(Sport::class)->withDefault();

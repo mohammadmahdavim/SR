@@ -10,6 +10,10 @@ class Role extends Model
 {
     use HasFactory,SoftDeletes;
     protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
 
     public function permissions()
     {

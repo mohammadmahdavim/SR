@@ -11,7 +11,10 @@ class Event extends Model
     use HasFactory;
     use SoftDeletes;
     protected $guarded=[];
-
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function type()
     {
         return $this->belongsTo(EventType::class)->withDefault();

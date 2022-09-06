@@ -12,4 +12,9 @@ class OrganizationType extends Model
     use SoftDeletes;
 
     protected $guarded=[];
+
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
 }

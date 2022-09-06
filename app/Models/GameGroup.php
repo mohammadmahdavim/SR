@@ -10,7 +10,11 @@ class GameGroup extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function region()
     {
         return $this->belongsTo(Region::class)->withDefault();

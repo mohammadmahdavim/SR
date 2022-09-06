@@ -11,6 +11,12 @@ class GameGroupSeason extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
+
     public function game_group()
     {
         return $this->belongsTo(GameGroup::class)->withDefault();

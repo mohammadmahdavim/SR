@@ -10,7 +10,11 @@ class HighlightDetailSubTag extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function sub_tag()
     {
         return $this->belongsTo(SubTag::class)->withDefault();

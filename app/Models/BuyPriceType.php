@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class BuyPriceType extends Model
 {
     use HasFactory;
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
 }

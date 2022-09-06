@@ -11,6 +11,12 @@ class TeamProfileMember extends Model
     use HasFactory;
     use SoftDeletes;
 
+    protected $guarded=[];
+
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
    public function team()
     {
         return $this->belongsTo(TeamProfile::class)->withDefault();

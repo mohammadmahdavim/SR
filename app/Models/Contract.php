@@ -20,4 +20,9 @@ class Contract extends Model
     {
         return $this->belongsTo(Contract::class)->withDefault();
     }
+
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
 }

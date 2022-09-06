@@ -10,7 +10,11 @@ class HighlightDetail extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+protected $guarded=[];
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function highlight()
     {
         return $this->belongsTo(Highlight::class)->withDefault();

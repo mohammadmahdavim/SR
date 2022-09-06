@@ -10,7 +10,10 @@ class EventSection extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     protected $guarded=[];
     public function section()
     {

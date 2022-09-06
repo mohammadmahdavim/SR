@@ -10,4 +10,8 @@ class BaseSection extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
 }

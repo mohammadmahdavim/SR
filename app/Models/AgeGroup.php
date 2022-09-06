@@ -10,7 +10,10 @@ class AgeGroup extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
+    public function getIdAttribute($value)
+    {
+        return encrypt($value);
+    }
     public function sport()
     {
         return $this->belongsTo(Sport::class)->withDefault();
