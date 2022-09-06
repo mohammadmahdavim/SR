@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Laravel\Passport\Passport;
 
 class OauthController extends Controller
 {
@@ -22,8 +24,9 @@ class OauthController extends Controller
      *            mediaType="multipart/form-data",
      *            @OA\Schema(
      *               type="object",
-     *               required={"username", "password" },
+     *               required={"user_name", "password" , "type"},
      *               @OA\Property(property="user_name", type="user_name"),
+     *               @OA\Property(property="type", type="type"),
      *               @OA\Property(property="password", type="password")
      *            ),
      *        ),
@@ -49,35 +52,69 @@ class OauthController extends Controller
      */
     public function login(Request $request)
     {
+        $this->validateLogin($request);
 
-//        $data = $request->all();
-
-        $validator = $request->validate([
-            'user_name' => 'required',
-            'password' => 'required'
-        ]);
-//        if($data->type){
-//
-//        }
-//        switch ($data->type){
-//            case $data->type = 1:
-//                $validator = $request->validate([
-//                    'username' => 'required|']); // Validation for username
-//            case $data->type = 2:
-//                $validator = $request->validate([
-//                    'username' => 'required|email']); // Validation for emails
-//            case $data->type = 3:
-//                $validator = $request->validate([
-//                    'username' => 'required|']); // Validation for phone number
-//        }
-
-        if (!auth()->attempt($validator)) {
+        if (!$this->attemptLogin($request)) {
             return response()->json(['error' => 'Unauthorised'], 401);
         } else {
             $success['token'] = auth()->user()->createToken('authToken')->accessToken;
             $success['user'] = auth()->user();
+
             return response()->json(['success' => $success])->setStatusCode(200);
         }
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            'password' => 'required',
+        ]);
+
+
+        switch ($request->all()){
+            case $request['type'] = 1:
+                $validator = $request->validate([
+                    'user_name' => 'required|']); // Validation for username
+            case $request['type'] = 2:
+                $validator = $request->validate([
+                    'user_name' => 'required|email']); // Validation for emails
+            case $request['type'] = 3:
+                $validator = $request->validate([
+                    'user_name' => 'required|']); // Validation for phone number
+
+        }
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+        //Try with username AND email AND username fields
+        if (auth()->attempt([
+                'user_name' => $request['user_name'],
+                'password' => $request['password']
+            ],$request->has('remember'))
+            || auth()->attempt([
+                'email' => $request['user_name'],
+                'password' => $request['password']
+            ],$request->has('remember'))
+            || auth()->attempt([
+                'phone_number' => $request['user_name'],
+                'password' => $request['password']
+            ],$request->has('remember'))){
+            return true;
+        }
+        return false;
     }
 
     /**
