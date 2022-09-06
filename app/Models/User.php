@@ -2,21 +2,33 @@
 
 namespace App\Models;
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\PersonalAccessTokenFactory;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use SoftDeletes;
 
+
+    public function createToken($name, array $scopes = [])
+    {
+        return Container::getInstance()->make(PersonalAccessTokenFactory::class)->make(
+            decrypt($this->getKey()), $name, $scopes
+        );
+    }
+
     public function getIdAttribute($value)
     {
         return encrypt($value);
     }
+
+
 
     /**
      * The attributes that are mass assignable.
