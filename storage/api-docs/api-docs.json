@@ -19,11 +19,15 @@
                             "schema": {
                                 "required": [
                                     "user_name",
-                                    "password"
+                                    "password",
+                                    "type"
                                 ],
                                 "properties": {
                                     "user_name": {
                                         "type": "user_name"
+                                    },
+                                    "type": {
+                                        "type": "type"
                                     },
                                     "password": {
                                         "type": "password"

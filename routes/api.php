@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\OauthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use L5Swagger\Http\Controllers\SwaggerController;
@@ -34,4 +35,4 @@ Route::get('testcan', [\App\Http\Controllers\TestController::class,'test']);
 Route::post('login', [App\Http\Controllers\Auth\OauthController::class,'login']);
 //Route::post('register', 'Api\AuthController@register');
 
-//Route::middleware('auth:api')->get('/user', [App\Http\Controllers\Api\AuthController::class,'user']);
+Route::middleware('auth:api')->get('/user', [OauthController::class,'user']);

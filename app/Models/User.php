@@ -18,17 +18,18 @@ class User extends Authenticatable
 
     public function createToken($name, array $scopes = [])
     {
+        $key = openssl_decrypt($this->getKey(), config('encrypt_key.ciphering'),
+            config('encrypt_key.encryption_key'), config('encrypt_key.options'), config('encrypt_key.encryption_iv'));
         return Container::getInstance()->make(PersonalAccessTokenFactory::class)->make(
-            decrypt($this->getKey()), $name, $scopes
+            $key, $name, $scopes
         );
     }
 
     public function getIdAttribute($value)
     {
-        return encrypt($value);
+        return openssl_encrypt($value, config('encrypt_key.ciphering'),
+            config('encrypt_key.encryption_key'), config('encrypt_key.options'), config('encrypt_key.encryption_iv'));
     }
-
-
 
     /**
      * The attributes that are mass assignable.

@@ -16,11 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return decrypt(\App\Models\Level::all()[3]->id);
-
+Route::get('/', function (\Illuminate\Http\Request $request) {
+    return \App\Models\User::all();
     \Log::channel('costume')->emergency('This is testing for ItSolutionStuff.com!');
 
     return view('welcome');
 });
-Route::get('/test',[\App\Http\Controllers\TestController::class,'index']);
+Route::get('/test', [\App\Http\Controllers\TestController::class, 'index']);

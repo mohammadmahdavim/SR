@@ -14,7 +14,7 @@ class TestController extends Controller
 
      $users= User::all();
 
-        return new JsonResodsurce(
+        return new JsonResource(
             [
                 'status' =>200,
                 'data' => $users,
@@ -31,14 +31,15 @@ class TestController extends Controller
 
 //        generate user permissions
         $user = User::where('id', 1)->first();
-        $teams = \Illuminate\Support\Facades\DB::table('users')->where('id', $user->id)
+        $teams = \Illuminate\Support\Facades\DB::table('users')->where('id', 1)
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('permission_role', 'permission_role.role_id', '=', 'role_user.role_id')
             ->join('permission_role_details', 'permission_role_details.permission_role_id', '=', 'permission_role.id')
             ->where('permission_roleable_type', 'like', '%' . 'TeamProfile' . '%')
             ->select('permission_roleable_id as id')
-            ->pluck('id');
-        $players = \Illuminate\Support\Facades\DB::table('users')->where('id', $user->id)
+            ->get();
+
+        $players = \Illuminate\Support\Facades\DB::table('users')->where('id', 1)
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('permission_role', 'permission_role.role_id', '=', 'role_user.role_id')
             ->join('permission_role_details', 'permission_role_details.permission_role_id', '=', 'permission_role.id')

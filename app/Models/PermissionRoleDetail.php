@@ -10,8 +10,8 @@ class PermissionRoleDetail extends Model
     use HasFactory;
     protected $guarded=[];
 
-    public function getIdAttribute($value)
-    {
-        return encrypt($value);
-    }
+//    public function getIdAttribute($value)
+//    {
+//        return encrypt($value);
+//    }
 }
