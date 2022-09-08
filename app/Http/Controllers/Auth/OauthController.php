@@ -65,7 +65,7 @@ class OauthController extends Controller
                 ]
             );
         } else {
-            $data['token'] = auth()->user()->createToken('authToken')->accessToken;
+            $data['token'] = auth()->user()->createToken('token')->accessToken;
             $data['user'] = auth()->user();
             return new JsonResource(
                 [
@@ -88,6 +88,8 @@ class OauthController extends Controller
     {
         $this->validate($request, [
             'password' => 'required',
+            'type' => 'required',
+            'user_name' => 'required'
         ]);
 
 
@@ -159,9 +161,8 @@ class OauthController extends Controller
      * )
      */
 
-    public function user(Request $request)
-    {
-        $user = $request->user();
+    public function user(Request $request){
+        $user =  $request->user();
         return $user;
     }
 }

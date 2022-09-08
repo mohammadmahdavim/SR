@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\OauthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use L5Swagger\Http\Controllers\SwaggerController;
+use Laravel\Passport\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +23,15 @@ use L5Swagger\Http\Controllers\SwaggerController;
 Route::group(['middleware' => 'web'], function () {
     Route::get('sr/api/docs', [SwaggerController::class,'api']);
 });
-Route::get('test', [\App\Http\Controllers\TestController::class,'tes
+Route::get('test', [\App\Http\Controllers\TestController::class,'test']);
+Route::get('/' , function (){
+//    $oauth_client_id = env('PASSPORT_CLIENT_ID');
+////    $oauth_client =  DB::table('oauth_clients')->where('id', $oauth_client_id)->first();
+//    $oauth_client = Client::findorfail($oauth_client_id);
+//
+//    return $oauth_client['secret'];
 
-
-
-
-
-t']);
+});
 
 //Route::get('test', [\App\Http\Controllers\TestController::class,'test']);
 Route::get('testcan', [\App\Http\Controllers\TestController::class,'test']);

@@ -16,6 +16,13 @@ class User extends Authenticatable
     use SoftDeletes;
 
 
+    public function findForPassport($username)
+    {
+        return $this->where('user_name', $username)->first();
+//        return $this->where(fn($q) => $q->where('email', $username)->orWhere('phone_number', $username)->orwhere('user_name', $username));
+    }
+
+
     public function createToken($name, array $scopes = [])
     {
         $key = openssl_decrypt($this->getKey(), config('encrypt_key.ciphering'),
@@ -67,11 +74,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'id');
     }
 
-    public function findForPassport($username)
-    {
-        return $this->where('user_name', $username)->first();
-//        return $this->where(fn($q) => $q->where('email', $username)->orWhere('phone_number', $username)->orwhere('user_name', $username));
-    }
+
 
     public function id()
     {

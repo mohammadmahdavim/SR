@@ -15,4 +15,19 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
+
+    /**
+     * @group logintest
+     */
+    public function loginTest() {
+        $user = Factory::create('App\User')->create();
+
+        $hasUser = $user ? true : false;
+
+        $this->assertTrue($hasUser);
+
+        $response = $this->actingAs($user)->get('/home');
+
+        $response->assertStatus(200);
+    }
 }
